@@ -1,14 +1,14 @@
 <div align="center">
 
 # 🩰 Kilda Mori Northcott MNZM
+
+<img src="photos/kildadebbie.jpg" width="900">
 ## Living Legacy Archive
 
 <p>
 A digital archive preserving the life, career and artistic legacy of one of
 Aotearoa New Zealand's most influential contemporary dancers.
 </p>
-
-<img src="photos/kildadebbie.jpg" width="900">
 
 <br>
 
