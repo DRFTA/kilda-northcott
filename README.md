@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🩰 Kilda Mori Northcott MNZM
+# 🩰 Kilda Mori Northcott MNZM 🩰
 
 <img src="photos/kildadebbie.jpg" width="900">
 ## Living Legacy Archive
