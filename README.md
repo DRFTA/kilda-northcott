@@ -1,137 +1,53 @@
 <div align="center">
-  
-# 🩰 Kilda Mori Northcott, MNZM — Living Legacy Archive
 
-  <br><br>
-  <img src="photos/kildadebbie.jpg"/>
-  <br><br>
+# 🩰 Kilda Mori Northcott MNZM
+## Living Legacy Archive
 
-[![GitHub Pages](https://img.shields.io/badge/View-Living%20Legacy%20Archive-2ea44f?style=for-the-badge&logo=github)](https://drfta.github.io/kilda-northcott/)
-[![Status](https://img.shields.io/badge/Status-Active-blue?style=for-the-badge)]()
-[![Made for](https://img.shields.io/badge/Made%20for-NZ%20Dance%20Heritage-black?style=for-the-badge)]()
+<p>
+A digital archive preserving the life, career and artistic legacy of one of
+Aotearoa New Zealand's most influential contemporary dancers.
+</p>
 
-<br><br>
+<img src="photos/kildadebbie.jpg" width="900">
 
-### To vist the website click the link bellow 👇
-### 🌐 https://drfta.github.io/kilda-northcott/
+<br>
 
-<br><br>
+[![Visit Website](https://img.shields.io/badge/🌐-Visit%20the%20Archive-2ea44f?style=for-the-badge)](https://drfta.github.io/kilda-northcott/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?style=for-the-badge&logo=github)](https://drfta.github.io/kilda-northcott/)
+![HTML5](https://img.shields.io/badge/HTML5-orange?style=for-the-badge&logo=html5)
+![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwindcss)
 
-> *"The body is a vessel of memory. Every movement I make today carries the echo of the marae floor in 1977, the rehearsal studios of Sydney in the 80s, and the cinematic landscapes of the present."*
+### 🌐 Visit the archive
+
+## https://drfta.github.io/kilda-northcott/
 
 ---
+
+*"Dance disappears the moment it is performed. This archive exists so the stories behind those performances never do."*
+
+</div>
 
 <div align="left">
 
 ## 📖 About This Project
 
-This is a digital preservation archive dedicated to **Kilda Mori Northcott MNZM**, one of the most influential figures in the history of contemporary dance in Aotearoa New Zealand.
+This project is a long-term digital preservation initiative documenting the life and career of Kilda Mori Northcott MNZM, whose work helped define the development of contemporary dance in Aotearoa New Zealand.
 
-The archive presents a comprehensive, interactive exploration of Kilda's five-decade career — from her early training in classical ballet, through her founding role in **Limbs Dance Company**, her transformative collaboration with **Douglas Wright**, to her ongoing work as a mentor and advocate for mature performers.
-
----
-
-## 🎯 Key Features
-
-- **📜 Living History Biography** — An extensive, narrative-driven account of Kilda's career and impact.
-- **🎨 Interactive Artistic Eras** — Explore five distinct periods of her creative journey with dynamic content panels.
-- **📊 Creative Velocity Chart** — Visual representation of production output by decade using Chart.js.
-- **📋 Performance Catalog** — Searchable, sortable table of works, choreographers, and performance contexts.
-- **🖼️ Visual Heritage Gallery** — Curated collection of archival images with full-screen modal viewing.
-- **🎨 Responsive Design** — Beautifully crafted with Tailwind CSS and custom styling.
+Drawing together photographs, historical research, production records, performance histories and biographical material, the archive aims to preserve not only Kilda's artistic achievements but also the broader history of New Zealand contemporary dance. Rather than functioning as a traditional biography, it presents an evolving historical resource designed for researchers, students, dancers, educators and anyone interested in New Zealand performing arts history.
 
 ---
 
-## 🛠️ Technologies Used
+## Why This Archive Matters
 
-| Technology | Purpose |
-|------------|---------|
-| **HTML5** | Structure & content |
-| **CSS3** | Custom styling & animations |
-| **Tailwind CSS** | Utility-first responsive design |
-| **JavaScript (ES6)** | Interactivity & state management |
-| **Chart.js** | Data visualization |
-| **Google Fonts** | Playfair Display & Inter typefaces |
+Dance is one of the most difficult art forms to preserve.
 
----
+Unlike paintings or books, performances exist only in the moment they are
+performed. Unless photographs, programmes, reviews and personal recollections
+are carefully preserved, entire careers can slowly disappear from history.
 
-## 🗂️ Project Structure
-
-```
-kilda-northcott/
-├── index.html              # Main archive page
-├── photos/                 # Image gallery
-│   ├── KildaYoung.jpg
-│   ├── kildadebbie.jpg
-│   ├── limbs01.jpg
-│   ├── nlnzKilda.jpg
-│   └── ... (29+ archival images)
-└── README.md              # This file
-```
-
----
-
-## 🚀 Getting Started
-
-### Clone the repository
-```bash
-git clone https://github.com/yourusername/kilda-northcott.git
-cd kilda-northcott
-```
-
-### Open the archive
-Simply open `index.html` in your browser. No build tools or dependencies required — everything loads from CDN.
-
-```bash
-open index.html
-# or double-click the file in your file explorer
-```
-
----
-
-## 📊 Data Sources
-
-- **Performance Catalog** — Compiled from historical records, programs, and archival documentation.
-- **Eras Information** — Curated from interviews, biographies, and dance history publications.
-- **Image Archive** — Sourced from personal collections and public archives.
-
----
-
-## 🎨 Design Palette
-
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Midnight Slate | `#0f172a` | Background |
-| Pastel Mint | `#99f6e4` | Primary accent |
-| Pastel Lavender | `#ddd6fe` | Secondary accent |
-| Pastel Peach | `#fed7aa` | Tertiary accent |
-| Text Main | `#f8fafc` | Primary text |
-
----
-
-## 📱 Responsive Breakpoints
-
-- **Mobile-first** design
-- **Tablet**: `md:` (768px) — two-column layouts
-- **Desktop**: `lg:` (1024px) — expanded content
-
----
-
-## 🔍 Interactive Elements
-
-### 1. Artistic Eras
-Click any era button to dynamically update:
-- Era title and description
-- Key collaborators
-- Primary location
-
-### 2. Performance Catalog
-- Search by work name or choreographer
-- Instant filtering of table rows
-
-### 3. Image Gallery
-- Click any thumbnail for full-screen view
-- Lazy loading for performance
+This project exists to ensure that Kilda Mori Northcott's contribution to
+New Zealand dance remains accessible for future generations.
 
 ---
 
@@ -145,6 +61,22 @@ Click any era button to dynamically update:
 - Bipeds Productions & mature performers
 - MNZM recognition
 - Legacy and impact
+
+### Career Timeline
+
+| Year | Milestone |
+|------|-----------|
+| 1955 | Born in Whakatāne |
+| 1960s | Ballet training at Ruby Conway School of Dance |
+| 1970s | New Zealand Dance Centre |
+| 1977 | Founding member of Limbs Dance Company |
+| Late 1970s | Studies in New York |
+| 1980s | International touring |
+| 1989 | Douglas Wright Dance Company |
+| 2000s | Bipeds Productions |
+| 2010s | Film and interdisciplinary performance |
+| 2020s | Continued artistic collaborations |
+| 2024 | *The Sea Inside Her* |
 
 ### Artistic Eras
 1. **1977–1983** — Limbs Dance Company
@@ -164,6 +96,24 @@ Click any era button to dynamically update:
 
 ---
 
+## 📊 Data Sources
+
+- **Performance Catalog** — Compiled from historical records, programs, and archival documentation.
+- **Eras Information** — Curated from interviews, biographies, and dance history publications.
+- **Image Archive** — Sourced from personal collections and public archives.
+
+---
+
+## Project Goals
+
+- Preserve New Zealand dance history
+- Digitally archive photographs and historical material
+- Document productions and collaborations
+- Create an accessible educational resource
+- Celebrate the legacy of Kilda Mori Northcott MNZM
+
+---
+
 ## 🌟 Acknowledgments
 
 - **Kilda Mori Northcott MNZM** — For her extraordinary contribution to dance and for inspiring this project.
@@ -174,28 +124,23 @@ Click any era button to dynamically update:
 
 ---
 
-## 📄 License
+## Legacy
 
-This project is for educational and archival purposes. All content is used with respect to the legacy of Kilda Mori Northcott.
+For more than five decades, Kilda Mori Northcott has helped shape the story of
+contemporary dance in Aotearoa New Zealand.
 
----
+This archive is intended to preserve that legacy so that future generations can
+continue to learn from her work, her collaborations and her extraordinary
+contribution to New Zealand performing arts.
 
-## 🤝 Contributing
-
-This is a preservation project. If you have additional archival materials, corrections, or context to contribute, please open an issue or submit a pull request.
-
----
-
-## 📬 Contact
-
-For questions or contributions:
-- **Email**: your-email@example.com
-- **GitHub**: [yourusername](https://github.com/yourusername)
+> "From a young ballet student in Kawerau to a pioneering founder of Limbs Dance Company, from the experimental studios of New York to the groundbreaking works of Douglas Wright, and from performer to mentor and champion of mature artists, Northcott's legacy is inseparable from the history of contemporary dance in Aotearoa."
 
 ---
 
-> *"From a young ballet student in Kawerau to a pioneering founder of Limbs Dance Company, from the experimental studios of New York to the groundbreaking works of Douglas Wright, and from performer to mentor and champion of mature artists, Northcott's legacy is inseparable from the history of contemporary dance in Aotearoa."*
+<div align="center">
 
----
+### Preserving New Zealand Dance History
 
-**Made with ❤️ for the preservation of New Zealand dance heritage.**
+Made with ❤️ for the preservation of Aotearoa New Zealand's performing arts heritage.
+
+</div>
