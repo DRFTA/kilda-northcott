@@ -1,15 +1,26 @@
+<div align="center">
 # 🩰 Kilda Mori Northcott, MNZM — Living Legacy Archive
 
   <br><br>
   <img src="photos/kildadebbie.jpg"/>
   <br><br>
 
-  ### To vist the website click the link bellow 👇
-  ### 🌐 https://drfta.github.io/kilda-northcott/
+[![GitHub Pages](https://img.shields.io/badge/View-Living%20Legacy%20Archive-2ea44f?style=for-the-badge&logo=github)](https://drfta.github.io/kilda-northcott/)
+[![Status](https://img.shields.io/badge/Status-Active-blue?style=for-the-badge)]()
+[![Made for](https://img.shields.io/badge/Made%20for-NZ%20Dance%20Heritage-black?style=for-the-badge)]()
+
+<br><br>
+
+### To vist the website click the link bellow 👇
+### 🌐 https://drfta.github.io/kilda-northcott/
+
+<br><br>
 
 > *"The body is a vessel of memory. Every movement I make today carries the echo of the marae floor in 1977, the rehearsal studios of Sydney in the 80s, and the cinematic landscapes of the present."*
 
 ---
+
+<div align="left">
 
 ## 📖 About This Project
 
