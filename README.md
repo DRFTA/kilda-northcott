@@ -22,26 +22,16 @@ Aotearoa New Zealand's most influential contemporary dancers.
 ![HTML5](https://img.shields.io/badge/HTML5-orange?style=for-the-badge&logo=html5)
 ![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwindcss)
-
-### 🌐 Visit the archive
-
-## https://drfta.github.io/kilda-northcott/
+### To visit the website click the link below 👇
+### 🌐 https://drfta.github.io/kilda-northcott/
 
 </div>
 
-<br><br>
+<br>
 
-<div align="center">
-
-*"Dance disappears the moment it is performed. This archive exists so the stories behind those performances never do."*
-
-</div>
-
-<br><br>
+## 🩰 Welcome 🩰
 
 <div align="left">
-
-## 📖 About This Project
 
 This project is a long-term digital preservation initiative documenting the life and career of Kilda Mori Northcott MNZM, whose work helped define the development of contemporary dance in Aotearoa New Zealand.
 
