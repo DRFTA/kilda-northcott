@@ -250,8 +250,8 @@ header h1 {
 header h1 .title-image {
     display: inline-block;
     vertical-align: middle;
-    width: 80px;
-    height: 80px;
+    width: auto;
+    height: auto;
     object-fit: contain;        /* ← CHANGE from 'cover' to 'contain' */
     border: 3px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 30px rgba(45, 212, 191, 0.2);
@@ -781,8 +781,8 @@ footer .copyright {
 /* ---------- TABLETS (768px and up) ---------- */
 @media (min-width: 768px) {
     header h1 .title-image {
-        width: 120px;
-        height: 120px;
+        width: auto;
+        height: auto;
         margin: 0 1rem;
     }
 
@@ -795,8 +795,8 @@ footer .copyright {
     }
 
     header h1 .title-image {
-        width: 120px;
-        height: 120px;
+        width: auto;
+        height: auto;
         margin: 0 1rem;
     }
 
@@ -846,6 +846,8 @@ footer .copyright {
 
     header h1 {
         font-size: 5.5rem;
+        width: auto;
+        height: auto;
     }
 
     .sidebar .portrait {
@@ -876,13 +878,13 @@ footer .copyright {
 /* ---------- LARGE DESKTOP (1280px and up) ---------- */
 @media (min-width: 1280px) {
     header h1 .title-image {
-        width: 140px;
-        height: 140px;
+        width: auto;
+        height: auto;
     }
 
     header h1 .title-image {
-        width: 140px;
-        height: 140px;
+        width: auto;
+        height: auto;
     }
 
     #biography {
@@ -901,8 +903,8 @@ footer .copyright {
 /* ---------- SMALL PHONES (480px and down) ---------- */
 @media (max-width: 480px) {
     header h1 .title-image {
-        width: 48px;
-        height: 48px;
+        width: auto;
+        height: auto;
         margin: 0.25rem;
     }
 
@@ -911,8 +913,8 @@ footer .copyright {
     }
 
     header h1 .title-image {
-        width: 48px;
-        height: 48px;
+        width: auto;
+        height: auto;
         margin: 0.25rem;
     }
 
@@ -1024,13 +1026,13 @@ footer .copyright {
 /* ---------- VERY SMALL (360px and down) ---------- */
 @media (max-width: 360px) {
     header h1 .title-image {
-        width: 40px;
-        height: 40px;
+        width: auto;
+        height: auto;
     }
 
     header h1 .title-image {
-        width: 40px;
-        height: 40px;
+        width: auto;
+        height: auto;
     }
 
     .gallery-grid {
