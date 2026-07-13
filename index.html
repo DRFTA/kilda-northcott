@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kilda Mori Northcott, MNZM | Living Legacy Archive</title>
-
-    <!-- External CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -148,14 +144,18 @@
         .title-image {
             display: inline-block;
             vertical-align: middle;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             object-fit: cover;
             border: 3px solid rgba(255,255,255,0.15);
             box-shadow: 0 0 30px rgba(45, 212, 191, 0.2);
-            margin: 12px 12px;
+            margin: 0 12px;
         }
         @media (min-width: 768px) {
             .title-image {
-                width: 100%;
+                width: 120px;
+                height: 120px;
             }
         }
         /* sidebar portrait */
@@ -190,15 +190,9 @@
         </div>
     </nav>
 
-        <header class="pt-40 pb-24 px-6 bg-gradient-to-b from-slate-800 to-transparent">
+    <header class="pt-40 pb-24 px-6 bg-gradient-to-b from-slate-800 to-transparent">
         <div class="max-w-4xl mx-auto text-center">
-            
-            <h1 class="text-5xl md:text-8xl font-bold mb-8 leading-tight">
-
-                
-                <img src="photos/kildadebbie.jpg" alt="Kilda and Debbie" class="title-image">
-                <span class="text-indigo-300 italic"></span>
-            </h1>
+            <img src="photos/kildadebbie.jpg" alt="Kilda and Debbie" class="title-image">
             <p class="text-xl text-slate-400 leading-relaxed font-light italic">
                 Regarded as one of the most influential figures in New Zealand dance, Kilda's career stands as a testament to her artistic strength, innovation, and lifelong dedication. Making her legacy, one of the greatest in the history of contemporary dance in Aotearoa.
             </p>
@@ -529,4 +523,3 @@
     </script>
 </body>
 </html>
-```
