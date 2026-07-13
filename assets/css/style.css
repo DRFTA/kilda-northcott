@@ -28,7 +28,7 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+    box-sizing: solid;
     margin: 0;
     padding: 0;
 }
