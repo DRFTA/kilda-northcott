@@ -2,6 +2,8 @@
 
 # 🩰 Kilda Mori Northcott MNZM 🩰
 
+<br>
+
 <img src="photos/kildadebbie.jpg" width="900">
 
 <br>
