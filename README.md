@@ -16,12 +16,11 @@ Aotearoa New Zealand's most influential contemporary dancers.
 </p>
 
 <br>
+<div align="center">
 
 [![Visit Website](https://img.shields.io/badge/🌐-Visit%20the%20Archive-2ea44f?style=for-the-badge)](https://drfta.github.io/kilda-northcott/)
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?style=for-the-badge&logo=github)](https://drfta.github.io/kilda-northcott/)
-![HTML5](https://img.shields.io/badge/HTML5-orange?style=for-the-badge&logo=html5)
-![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwindcss)
+![Status](https://img.shields.io/badge/Status-Active-blue?style=for-the-badge)
+![Made with Love](https://img.shields.io/badge/Made%20for-NZ%20Dance%20Heritage-orange?style=for-the-badge)
 ### To visit the website click the link below 👇
 ### 🌐 https://drfta.github.io/kilda-northcott/
 
