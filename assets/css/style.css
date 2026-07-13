@@ -246,16 +246,17 @@ header h1 {
     line-height: 1.2;
 }
 
+/* ---------- TITLE IMAGE (HERO) ---------- */
 header h1 .title-image {
     display: inline-block;
     vertical-align: middle;
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;        /* ← CHANGE from 'cover' to 'contain' */
     border: 3px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 30px rgba(45, 212, 191, 0.2);
     margin: 0.5rem;
+    background: var(--bg-dark);  /* fills any transparent gaps */
 }
 
 header h1 .highlight {
@@ -779,8 +780,10 @@ footer .copyright {
 
 /* ---------- TABLETS (768px and up) ---------- */
 @media (min-width: 768px) {
-    nav .nav-links {
-        display: flex;
+    header h1 .title-image {
+        width: 120px;
+        height: 120px;
+        margin: 0 1rem;
     }
 
     .mobile-menu-btn {
@@ -872,8 +875,9 @@ footer .copyright {
 
 /* ---------- LARGE DESKTOP (1280px and up) ---------- */
 @media (min-width: 1280px) {
-    header h1 {
-        font-size: 6.5rem;
+    header h1 .title-image {
+        width: 140px;
+        height: 140px;
     }
 
     header h1 .title-image {
@@ -896,11 +900,10 @@ footer .copyright {
 
 /* ---------- SMALL PHONES (480px and down) ---------- */
 @media (max-width: 480px) {
-    header {
-        padding-top: 7rem;
-        padding-bottom: 4rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
+    header h1 .title-image {
+        width: 48px;
+        height: 48px;
+        margin: 0.25rem;
     }
 
     header h1 {
@@ -1020,8 +1023,9 @@ footer .copyright {
 
 /* ---------- VERY SMALL (360px and down) ---------- */
 @media (max-width: 360px) {
-    header h1 {
-        font-size: 1.5rem;
+    header h1 .title-image {
+        width: 40px;
+        height: 40px;
     }
 
     header h1 .title-image {
