@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kilda Mori Northcott, MNZM | Living Legacy Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --pastel-mint: #99f6e4;
+            --pastel-lavender: #ddd6fe;
+            --pastel-peach: #fed7aa;
+            --text-main: #f8fafc;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .era-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 2px solid transparent;
+        }
+        .era-card.active {
+            border-left-color: var(--pastel-mint);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(10px);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--pastel-lavender);
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .accent-text {
+            color: var(--pastel-peach);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--pastel-mint);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+        .gallery-grid img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-grid img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(45, 212, 191, 0.15);
+        }
+        .image-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .image-modal.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .image-modal img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+        .image-modal .close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: background 0.2s;
+        }
+        .image-modal .close-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        /* title image layout */
+        .title-image {
+            display: inline-block;
+            vertical-align: middle;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.15);
+            box-shadow: 0 0 30px rgba(45, 212, 191, 0.2);
+            margin: 12px 12px;
+        }
+        @media (min-width: 768px) {
+            .title-image {
+                width: 100%;
+            }
+        }
+        /* sidebar portrait */
+        .sidebar-portrait {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 2rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            margin: 0 auto 2rem auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- modal for full-size image -->
+    <div class="image-modal" id="imageModal">
+        <button class="close-btn" id="modalCloseBtn">✕</button>
+        <img id="modalImage" src="" alt="archival image">
+    </div>
+
+    <nav class="fixed top-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-white/10 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="text-xl font-bold tracking-tighter uppercase text-white">Kilda Mori Northcott <span class="font-light text-teal-300">MNZM</span></span>
+            <div class="hidden md:flex space-x-8 text-xs font-semibold uppercase tracking-widest text-slate-400">
+                <a href="#biography" class="nav-link hover:text-white">Biography</a>
+                <a href="#eras" class="nav-link hover:text-white">The Eras</a>
+                <a href="#archive" class="nav-link hover:text-white">Works</a>
+                <a href="#registry" class="nav-link hover:text-white">Gallery</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-40 pb-24 px-6 bg-gradient-to-b from-slate-800 to-transparent">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block px-4 py-1 mb-8 text-xs font-bold tracking-widest uppercase bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30">Founding Pillar of Contemporary Dance</div>
+            <h1 class="text-5xl md:text-8xl font-bold mb-8 leading-tight">
+                
+                <img src="photos/kildadebbie.jpg" alt="Kilda and Debbie" class="title-image">
+                <span class="text-indigo-300 italic"></span>
+            </h1>
+            <p class="text-xl text-slate-400 leading-relaxed font-light italic">
+                Regarded as one of the most influential figures in New Zealand dance, Kilda's career stands as a testament to her artistic strength, innovation, and lifelong dedication. Making her legacy, one of the greatest in the history of contemporary dance in Aotearoa.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 space-y-32 pb-24">
+
+        <!-- BIOGRAPHY SECTION -->
+        <section id="biography" class="grid md:grid-cols-5 gap-16 items-start">
+            <div class="md:col-span-3 space-y-8">
+                <h2 class="text-4xl font-bold text-teal-200">The Living History</h2>
+                <div class="prose prose-invert prose-lg text-slate-300 max-w-none space-y-6 leading-relaxed">
+                    <p>Born in Whakatāne in 1955, <span class="text-teal-200 font-semibold">Kilda Mori Northcott MNZM</span> has played a defining role in the development of contemporary dance in Aotearoa New Zealand. Her career spans more than five decades and mirrors the emergence of contemporary dance from a small experimental movement into one of New Zealand's most respected performing arts. As a dancer, teacher, mentor, collaborator and advocate, Northcott has helped shape generations of performers while remaining one of the country's most enduring and influential dance artists.</p>
+
+                    <p>Northcott's journey into dance began in the Eastern Bay of Plenty, where she trained in classical ballet at the <span class="text-orange-200">Ruby Conway School of Dance</span> in nearby Kawerau. Her early education was grounded in the discipline and technical precision of classical ballet before she relocated to Auckland to continue her studies at the <span class="text-indigo-200">New Zealand Dance Centre</span> under two of New Zealand's most respected dance educators, <span class="text-indigo-200">Russell Kerr</span> and <span class="text-indigo-200">Basil Pattison</span>. The Dance Centre was one of the country's foremost professional training institutions during the 1960s and 1970s, producing many dancers who would go on to establish New Zealand's modern dance movement. Northcott's training there gave her a strong classical foundation while exposing her to emerging contemporary techniques that were beginning to transform dance internationally.</p>
+
+                    <p>Like many ambitious New Zealand dancers of her generation, Northcott looked overseas to broaden her artistic horizons. During the mid-1970s she travelled to New York City, then the epicentre of contemporary dance innovation. There she studied the techniques of <span class="text-purple-200">Merce Cunningham</span> and <span class="text-purple-200">José Limón</span>, absorbing the revolutionary ideas that were redefining movement in the twentieth century. Cunningham's exploration of chance, space and independence between dance and music, combined with Limón's emphasis on breath, weight and human expression, profoundly influenced Northcott's artistic philosophy. Rather than simply reproducing overseas styles, she returned to New Zealand determined to help forge a uniquely New Zealand form of contemporary dance that reflected the country's own landscapes, people and culture.</p>
+
+                    <p>That opportunity arrived in 1977 when Northcott became one of the founding members of <span class="text-teal-200">Limbs Dance Company</span>, alongside Chris Jannides, Mary Jane O'Reilly, Debbie McCulloch, Julie Dunningham and Mark Baldwin. Contrary to the traditions of formal theatre, Limbs was established following a gathering of dancers at <span class="text-teal-200">Rongomaraeroa Marae</span> in Pōrangahau, Hawke's Bay, where the company's philosophy of accessibility and artistic experimentation first took shape. Limbs rejected the idea that dance belonged only in concert halls and instead sought to take performance directly to communities throughout New Zealand.</p>
+
+                    <p>Throughout the late 1970s and 1980s, Northcott helped pioneer a new era of professional dance in New Zealand. Limbs performed not only in traditional theatres but also in university campuses, schools, prisons, music festivals, shopping centres, nightclubs, theatre foyers and outdoor public spaces. Their productions combined classical technique with jazz, disco, pedestrian movement and popular music, deliberately breaking down the "fourth wall" that had long separated performers from audiences. This approach attracted thousands of New Zealanders who had never previously experienced contemporary dance and fundamentally changed public perceptions of the art form. Limbs became the first contemporary dance company in New Zealand to achieve widespread national popularity and is now widely regarded as one of the country's most significant performing arts institutions.</p>
+
+                    <p>As both a founding performer and teacher within Limbs, Northcott was central to the company's success. Her technical mastery, expressive physicality and willingness to embrace experimentation made her one of its defining artists. She performed works by leading New Zealand choreographers including Mary Jane O'Reilly, Chris Jannides, Mark Baldwin and, later, Douglas Wright, helping establish a distinctly New Zealand vocabulary of movement that blended international contemporary dance practices with local identity and storytelling. The company's collaborations with musicians such as Split Enz, Don McGlashan, Jack Body and Philip Dadson further expanded contemporary dance's audience and cultural influence.</p>
+
+                    <p>Northcott's influence extended well beyond Limbs. During the early 1980s she became an important teacher and mentor within the company, contributing to the training of young dancers entering the profession. Among those who benefited from the Limbs environment was <span class="text-orange-200">Douglas Wright</span>, then a former competitive gymnast with no formal dance experience. Wright later acknowledged the significance of the training and mentorship he received from Northcott, Mary Jane O'Reilly and the Limbs community after joining the company in 1980.</p>
+
+                    <p>A defining chapter of Northcott's career began through her long creative partnership with Douglas Wright. When Wright established the <span class="text-orange-200">Douglas Wright Dance Company</span> in 1989, Northcott became one of its founding members and one of his closest artistic collaborators. Over the following decade she performed in many of Wright's landmark productions, helping bring to life some of the most acclaimed works in New Zealand dance history. Wright frequently described Northcott as his artistic muse, recognising her extraordinary ability to communicate emotional complexity through movement. In his memoir <span class="italic text-teal-200">Ghost Dance</span>, he famously wrote that she "danced in the same way the Mona Lisa smiles—calm, inscrutable, seeing nothing, seeing everything."</p>
+
+                    <p>Northcott's performances became synonymous with Wright's highly physical and deeply philosophical choreography, which explored themes of mortality, spirituality, sexuality, memory and human vulnerability. Rather than functioning simply as an interpreter of choreography, she became an active creative collaborator whose maturity, intuition and expressive intelligence helped shape the emotional language of Wright's works. Together they contributed to productions that earned international recognition and established New Zealand contemporary dance on the world stage through tours across Australia and Europe.</p>
+
+                    <p>Alongside her performing career, Northcott developed an enduring reputation as a teacher and mentor. She has worked extensively with dancers of all ages, encouraging an approach that balances technical excellence with curiosity, creativity and authentic human expression. Her teaching philosophy reflects the belief that dance is not simply an athletic discipline but a lifelong artistic practice capable of evolving throughout every stage of life.</p>
+
+                    <p>Rather than retiring from performance, Northcott has continued to redefine what it means to be a professional dancer. Through <span class="text-teal-200">Bipeds Productions</span> and long-standing collaborations with choreographer <span class="text-teal-200">Alyx Duncan</span>, she has become one of New Zealand's strongest advocates for mature performers. Their work challenges conventional assumptions that professional dance belongs exclusively to the young, demonstrating instead that older bodies possess unique histories, emotional depth and lived experience that enrich performance in ways impossible to replicate through youthful virtuosity alone. These productions have become important contributions to international conversations surrounding ageing, embodiment and representation within the performing arts.</p>
+
+                    <p>Northcott's career has also become an important historical bridge between generations of New Zealand dancers. Having trained during the formative years of contemporary dance, helped establish Limbs Dance Company, collaborated with Douglas Wright during the emergence of his internationally acclaimed choreographic voice, and continued creating innovative work well into the twenty-first century, she embodies the living history of New Zealand dance itself. Few artists have participated so directly in every major stage of the country's contemporary dance development.</p>
+
+                    <p>In recognition of her exceptional contribution to dance and the performing arts, Kilda Mori Northcott was appointed a <span class="text-teal-200">Member of the New Zealand Order of Merit (MNZM)</span>. The honour acknowledged not only her achievements as an internationally respected performer, but also her decades of service as a teacher, mentor and advocate whose influence continues to shape New Zealand's artistic landscape.</p>
+
+                    <p>Today, Kilda Mori Northcott remains one of the most respected figures in New Zealand dance. Her career stands as a testament to artistic courage, innovation and lifelong dedication. From a young ballet student in Kawerau to a pioneering founder of Limbs Dance Company, from the experimental studios of New York to the groundbreaking works of Douglas Wright, and from performer to mentor and champion of mature artists, Northcott's legacy is inseparable from the history of contemporary dance in Aotearoa. Through every stage of that journey, she has demonstrated that dance is not merely performance—it is a living record of experience, identity and human connection, continually evolving through those who dedicate their lives to its practice.</p>
+                </div>
+            </div>
+
+            <!-- sidebar: portrait + chart + philosophy (pushed down) -->
+            <div class="md:col-span-2 space-y-12">
+                <!-- portrait -->
+                <img src="photos/KildaYoung.jpg" alt="Kilda Mori Northcott young portrait" class="sidebar-portrait">
+
+                <div class="p-8 glass-panel rounded-3xl border border-white/5">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-teal-400 mb-6">Creative Velocity (Productions by Decade)</h3>
+                    <div class="chart-container">
+                        <canvas id="careerChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-indigo-900/20 rounded-3xl border border-indigo-500/20">
+                    <h3 class="text-xl font-bold text-indigo-200 mb-4">Core Philosophy</h3>
+                    <p class="text-slate-400 text-sm italic leading-relaxed">"The body is a vessel of memory. Every movement I make today carries the echo of the marae floor in 1977, the rehearsal studios of Sydney in the 80s, and the cinematic landscapes of the present."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ERAS SECTION -->
+        <section id="eras" class="bg-slate-900 border border-white/5 p-10 md:p-20 rounded-[3rem] shadow-2xl">
+            <div class="mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-white">Artistic Eras</h2>
+                <p class="text-slate-400 max-w-2xl">A chronological journey through the institutional and creative chapters of Kilda's fifty-year career.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="space-y-4" id="era-nav">
+                    <button onclick="showEra(0)" class="era-card w-full text-left p-6 rounded-2xl active group" id="btn-0">
+                        <span class="block text-xs uppercase tracking-widest text-teal-500 font-bold mb-1">1977 – 1983</span>
+                        <span class="text-xl font-bold group-hover:text-teal-300 transition-colors">Limbs Dance Company</span>
+                    </button>
+                    <button onclick="showEra(1)" class="era-card w-full text-left p-6 rounded-2xl group" id="btn-1">
+                        <span class="block text-xs uppercase tracking-widest text-purple-400 font-bold mb-1">1983 – 1989</span>
+                        <span class="text-xl font-bold group-hover:text-purple-300 transition-colors">The Sydney Transition</span>
+                    </button>
+                    <button onclick="showEra(2)" class="era-card w-full text-left p-6 rounded-2xl group" id="btn-2">
+                        <span class="block text-xs uppercase tracking-widest text-orange-400 font-bold mb-1">1989 – 2003</span>
+                        <span class="text-xl font-bold group-hover:text-orange-300 transition-colors">The Douglas Wright Muse</span>
+                    </button>
+                    <button onclick="showEra(3)" class="era-card w-full text-left p-6 rounded-2xl group" id="btn-3">
+                        <span class="block text-xs uppercase tracking-widest text-teal-400 font-bold mb-1">2003 – 2010</span>
+                        <span class="text-xl font-bold group-hover:text-teal-200 transition-colors">Bipeds & Pedagogy</span>
+                    </button>
+                    <button onclick="showEra(4)" class="era-card w-full text-left p-6 rounded-2xl group" id="btn-4">
+                        <span class="block text-xs uppercase tracking-widest text-indigo-400 font-bold mb-1">2010 – Present</span>
+                        <span class="text-xl font-bold group-hover:text-indigo-300 transition-colors">Screen Dance Maturity</span>
+                    </button>
+                </div>
+                <div class="md:col-span-2 bg-slate-800/40 p-10 md:p-14 rounded-3xl border border-white/10" id="era-content">
+                    <h3 class="text-4xl font-bold mb-8 text-white" id="era-title">Limbs Dance Company</h3>
+                    <div class="prose prose-invert prose-lg text-slate-300 mb-12" id="era-description">
+                        <p>Founding the company at Rongomaraeroa marae, Kilda helped democratize dance in Aotearoa. This era was defined by populist modernism, performing in nightclubs, prisons, and for royalty at the 1981 Royal Variety Performance.</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6 text-sm" id="era-meta">
+                        <div class="p-6 bg-slate-900/80 rounded-2xl border border-white/5">
+                            <span class="block text-teal-400 uppercase tracking-widest text-[10px] font-bold mb-2">Key Collaborators</span>
+                            <span class="font-medium text-white text-lg" id="era-collab">Chris Jannides, Mary-Jane O'Reilly</span>
+                        </div>
+                        <div class="p-6 bg-slate-900/80 rounded-2xl border border-white/5">
+                            <span class="block text-teal-400 uppercase tracking-widest text-[10px] font-bold mb-2">Primary Location</span>
+                            <span class="font-medium text-white text-lg" id="era-loc">Auckland / National Tours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PERFORMANCE CATALOG -->
+        <section id="archive" class="space-y-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
+                <div>
+                    <h2 class="text-4xl font-bold text-white">Performance Catalog</h2>
+                    <p class="text-slate-500 mt-2">A comprehensive historical record of primary casts and choreographic collaborations.</p>
+                </div>
+                <div class="flex space-x-2">
+                    <input type="text" id="perfSearch" placeholder="Search works or choreographers..." class="px-6 py-3 bg-slate-800 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all text-sm w-full md:w-80 text-white">
+                </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-2xl border border-white/5">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-800/50">
+                        <tr class="text-teal-400">
+                            <th class="p-6 font-bold uppercase tracking-widest text-xs">Work Name</th>
+                            <th class="p-6 font-bold uppercase tracking-widest text-xs">Premiere</th>
+                            <th class="p-6 font-bold uppercase tracking-widest text-xs">Lead Choreographer</th>
+                            <th class="p-6 font-bold uppercase tracking-widest text-xs">Institutional Context</th>
+                        </tr>
+                    </thead>
+                    <tbody id="perfTableBody" class="divide-y divide-white/5"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- GALLERY SECTION -->
+        <section id="registry" class="space-y-12">
+            <div class="text-center">
+                <h2 class="text-4xl font-bold text-white mb-4">Visual Heritage Gallery</h2>
+                <p class="text-slate-400 max-w-3xl mx-auto">Direct archival captures from Kilda's career — click any image to enlarge.</p>
+            </div>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 py-24 px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex justify-center space-x-4 mb-8">
+                <div class="w-12 h-1 bg-teal-400 rounded-full"></div>
+                <div class="w-12 h-1 bg-purple-400 rounded-full"></div>
+                <div class="w-12 h-1 bg-orange-400 rounded-full"></div>
+            </div>
+            <h2 class="text-3xl font-bold mb-4 text-white">Kilda Mori Northcott, MNZM</h2>
+            <p class="text-slate-500 text-sm tracking-widest uppercase mb-12">Dancer • Choreographer • Teacher • Mentor</p>
+            <p class="text-slate-600 text-[10px] uppercase tracking-widest font-bold">A Digital Preservation Project © 2024</p>
+        </div>
+    </footer>
+
+    <script>
+        // ----- ERA DATA -----
+        const eras = [
+            { title: "Limbs Dance Company", date: "1977 – 1983", description: "As a founding member of New Zealand's first professional contemporary company, Kilda toured nationally and internationally. This period was characterized by a high-energy, eclectic style that combined modern dance with theatrical flair.", collab: "Chris Jannides, M.J. O'Reilly", loc: "Auckland / Global Tours" },
+            { title: "The Sydney Transition", date: "1983 – 1989", description: "Moving across the Tasman, Northcott became a fixture in the Sydney contemporary scene. This era involved deep experimentation with independent choreographers and the integration of yoga into her somatic practice.", collab: "Darc Swan, Jill Carter-Hansen", loc: "Sydney, Australia" },
+            { title: "The Douglas Wright Muse", date: "1989 – 2003", description: "Often cited as the 'spine' of Douglas Wright's most iconic works. Her technical precision and emotional depth allowed Wright to create pieces that remain the high-water mark of NZ contemporary dance history.", collab: "Douglas Wright, Michael Parmenter", loc: "Wellington / Auckland" },
+            { title: "Bipeds & Pedagogy", date: "2003 – 2010", description: "Co-founding Bipeds Productions marked a shift toward community-integrated dance and education. During this time, she received the MNZM for her services to the national dance community.", collab: "Lyne Pringle, Dunedin Arts", loc: "Dunedin / Port Chalmers" },
+            { title: "Screen Dance Maturity", date: "2010 – Present", description: "A transition into highly visual, cinematic explorations of aging. Collaborations with director Alyx Duncan have seen Kilda's movement translated into hauntingly beautiful screen narratives.", collab: "Alyx Duncan, Screen NZ", loc: "Cinematic / Digital Media" }
+        ];
+
+        function showEra(index) {
+            const era = eras[index];
+            document.querySelectorAll('.era-card').forEach(c => c.classList.remove('active'));
+            document.getElementById(`btn-${index}`).classList.add('active');
+            document.getElementById('era-title').textContent = era.title;
+            document.getElementById('era-description').innerHTML = `<p>${era.description}</p>`;
+            document.getElementById('era-collab').textContent = era.collab;
+            document.getElementById('era-loc').textContent = era.loc;
+        }
+
+        // ----- PERFORMANCE TABLE -----
+        const performances = [
+            { work: "Reptile", year: 1977, choreo: "Chris Jannides", context: "Limbs Founding Tour" },
+            { work: "Apart", year: 1978, choreo: "Chris Jannides", context: "National Tour" },
+            { work: "New Wave Goodbye", year: 1978, choreo: "Mary-Jane O'Reilly", context: "Populist Era" },
+            { work: "Sellotape 1", year: 1978, choreo: "Chris Jannides", context: "Limbs Experimental" },
+            { work: "Morphus", year: 1978, choreo: "Chris Jannides", context: "Maidment Theatre" },
+            { work: "Walking on Thin Ice", year: 1986, choreo: "Douglas Wright", context: "Sydney / Auckland" },
+            { work: "How on Earth", year: 1989, choreo: "Douglas Wright", context: "Aotea Centre Premiere" },
+            { work: "A New Dance / Passion Play", year: 1990, choreo: "Wright & Northcott", context: "Collaborative Duet" },
+            { work: "Forever", year: 1993, choreo: "Douglas Wright", context: "International Festival" },
+            { work: "Buried Venus", year: 1996, choreo: "Douglas Wright", context: "Role: Lead Ensemble" },
+            { work: "Inland", year: 2002, choreo: "Douglas Wright", context: "NZ Festival of the Arts" },
+            { work: "Dancing on Mars", year: 2005, choreo: "Pringle & Northcott", context: "Bipeds Production" },
+            { work: "Lily", year: 2009, choreo: "Lyne Pringle", context: "Dunedin Town Hall" },
+            { work: "The Sea Inside Her", year: 2024, choreo: "Alyx Duncan (Dir)", context: "Short Film Narrative" }
+        ];
+
+        function populatePerformances(filter = "") {
+            const body = document.getElementById('perfTableBody');
+            body.innerHTML = "";
+            const filtered = performances.filter(p => 
+                p.work.toLowerCase().includes(filter.toLowerCase()) || 
+                p.choreo.toLowerCase().includes(filter.toLowerCase())
+            );
+            filtered.forEach(p => {
+                const row = document.createElement('tr');
+                row.className = "group hover:bg-slate-800/80 transition-colors";
+                row.innerHTML = `
+                    <td class="p-6 font-bold text-white text-lg">${p.work}</td>
+                    <td class="p-6 text-teal-400 font-mono">${p.year}</td>
+                    <td class="p-6 font-semibold text-slate-300">${p.choreo}</td>
+                    <td class="p-6 text-xs italic text-slate-500 uppercase tracking-widest">${p.context}</td>
+                `;
+                body.appendChild(row);
+            });
+        }
+
+        // ----- GALLERY (local images) -----
+        const imageFiles = [
+            "chris-kilda.jpg",
+            "c-limbs-dance-prog-284.jpg",
+            "DanceMagKildaLimbs.jpg",
+            "early-limbs.jpg",
+            "early-limbs-group-shot-in-2nd.jpg",
+            "great-slave-picture-with-peta.jpg",
+            "kilda.jpg",
+            "kildadebbie.jpg",
+            "Limbs.web.jpg",
+            "limbs01.jpg",
+            "Limbs1980tour_1sm.jpg",
+            "limbs-cheesy-publicity-shot.jpg",
+            "LimbsDance_1_sm.jpg",
+            "limbs-everyone.jpg",
+            "limbs-hands-on-hips-group-shot.jpg",
+            "LimbsPoster.jpg",
+            "Limbs-poster-Rangitoto_sm.jpg",
+            "limbswhangamata1.jpg",
+            "limbs-women-hair.jpg",
+            "nlnzKilda.jpg",
+            "nlnzKilda1.jpg",
+            "parliament-shot.jpg",
+            "porongahau-workshop-copy.jpg",
+            "Scan2_sm.jpg",
+            "Scan3_sm.jpg",
+            "Scan5_sm.jpg",
+            "Scan24_giselle_sm.jpg",
+            "smiling-limbs.jpg",
+            "TheSeaInsideHer.jpg"
+        ];
+
+        function populateGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+            imageFiles.forEach(file => {
+                const img = document.createElement('img');
+                img.src = `photos/${file}`;
+                img.alt = file.replace(/\.[^/.]+$/, "").replace(/-/g, ' ');
+                img.loading = 'lazy';
+                img.addEventListener('click', () => openModal(img.src));
+                grid.appendChild(img);
+            });
+        }
+
+        // ----- IMAGE MODAL -----
+        function openModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.classList.add('open');
+        }
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('open');
+        }
+        document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+        document.getElementById('imageModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        // ----- CHART -----
+        function initChart() {
+            const ctx = document.getElementById('careerChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['70s', '80s', '90s', '00s', '10s+'],
+                    datasets: [{
+                        label: 'Key Productions',
+                        data: [6, 4, 3, 5, 2],
+                        backgroundColor: '#99f6e4',
+                        hoverBackgroundColor: '#fed7aa',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // ----- INIT -----
+        document.getElementById('perfSearch').addEventListener('input', (e) => {
+            populatePerformances(e.target.value);
+        });
+
+        window.onload = () => {
+            initChart();
+            populatePerformances();
+            populateGallery();
+            showEra(0);
+        };
+    </script>
+</body>
+</html>
+```
