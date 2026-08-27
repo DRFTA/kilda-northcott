@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kilda · Timeline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* --- Reset & base --- */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; background:#f8fafc; color:#0f172a; line-height:1.6; }
+        h1,h2,h3 { font-family:'Playfair Display',serif; }
+        img { max-width:100%; display:block; }
+        a { text-decoration:none; color:inherit; }
+        button { cursor:pointer; border:none; background:none; font:inherit; }
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:#e2e8f0; }
+        ::-webkit-scrollbar-thumb { background:#0d9488; border-radius:4px; }
+
+        /* --- Navigation --- */
+        nav { position:fixed; top:0; width:100%; z-index:50; background:rgba(255,255,255,0.9); backdrop-filter:blur(12px); border-bottom:1px solid #e2e8f0; padding:0.75rem 1.5rem; }
+        .nav-inner { max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+        .brand { font-weight:700; text-transform:uppercase; letter-spacing:-.025em; color:#0f172a; }
+        .brand span { color:#0d9488; font-weight:300; }
+        .nav-links { display:none; gap:2rem; }
+        .nav-links a { font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:#64748b; transition:color .3s; position:relative; }
+        .nav-links a::after { content:''; position:absolute; width:0; height:2px; bottom:-4px; left:0; background:#0d9488; transition:width .3s; }
+        .nav-links a:hover { color:#0f172a; }
+        .nav-links a:hover::after { width:100%; }
+        .mobile-toggle { display:block; font-size:1.5rem; color:#0f172a; }
+        .mobile-menu { display:none; flex-direction:column; gap:0.5rem; padding:1rem 0; border-top:1px solid #e2e8f0; margin-top:1rem; }
+        .mobile-menu.open { display:flex; }
+        .mobile-menu a { padding:0.75rem 1rem; color:#64748b; border-radius:0.5rem; transition:background .2s; }
+        .mobile-menu a:hover { background:#f1f5f9; color:#0f172a; }
+
+        /* --- Hero --- */
+        header { padding:8rem 1.5rem 3rem; background:linear-gradient(to bottom,#f1f5f9,#f8fafc); text-align:center; }
+        .hero-badge { display:inline-block; padding:0.25rem 1rem; margin-bottom:1.5rem; font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:rgba(13,148,136,0.12); color:#0d9488; border-radius:9999px; border:1px solid rgba(13,148,136,0.2); }
+        header h1 { font-size:2.5rem; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:0.5rem; margin-bottom:1.5rem; }
+        header h1 .title-image { max-height:4rem; border-radius:1rem; border:2px solid #e2e8f0; box-shadow:0 4px 20px rgba(0,0,0,0.06); }
+        .hero-sub { font-size:1.125rem; color:#475569; max-width:720px; margin:0 auto; font-style:italic; }
+
+        /* --- Main container (two‑column with sticky sidebar) --- */
+        .main-grid { max-width:1280px; margin:0 auto; padding:2rem 1.5rem 4rem; display:grid; grid-template-columns:1fr; gap:3rem; }
+        @media (min-width:1024px) { .main-grid { grid-template-columns:2.5fr 1.5fr; } }
+
+        /* --- Content area --- */
+        .content-flow > section { margin-bottom:4rem; }
+
+        /* Biography */
+        .bio-text h2 { font-size:2.25rem; color:#0d9488; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem; margin-bottom:1.5rem; }
+        .bio-text .prose { color:#334155; font-size:1.0625rem; line-height:1.8; }
+        .bio-text .prose p { margin-bottom:1.5rem; }
+        .hl-teal { color:#0d9488; font-weight:600; }
+        .hl-orange { color:#ea580c; }
+        .hl-indigo { color:#4f46e5; }
+        .hl-purple { color:#7c3aed; }
+        .italic { font-style:italic; }
+
+        /* Timeline eras */
+        .timeline { position:relative; padding-left:2rem; border-left:3px solid #0d9488; }
+        .timeline-item { margin-bottom:2rem; padding-left:1.5rem; position:relative; }
+        .timeline-item::before { content:''; position:absolute; left:-2.3rem; top:0.5rem; width:1rem; height:1rem; background:#0d9488; border-radius:50%; border:3px solid white; }
+        .timeline-item .date { font-size:0.75rem; font-weight:700; text-transform:uppercase; color:#0d9488; letter-spacing:0.05em; }
+        .timeline-item .title { font-size:1.25rem; font-weight:700; color:#0f172a; cursor:pointer; transition:color .2s; }
+        .timeline-item .title:hover { color:#0d9488; }
+        .timeline-item .desc { display:none; margin-top:0.5rem; color:#475569; }
+        .timeline-item.active .desc { display:block; }
+
+        /* Catalog table */
+        .table-wrap { overflow-x:auto; border:1px solid #e2e8f0; border-radius:1rem; background:white; }
+        table { width:100%; text-align:left; font-size:0.875rem; border-collapse:collapse; }
+        thead { background:#f8fafc; border-bottom:1px solid #e2e8f0; }
+        thead th { padding:1rem 1.5rem; font-size:0.625rem; text-transform:uppercase; color:#0d9488; letter-spacing:0.1em; }
+        tbody tr { border-bottom:1px solid #f1f5f9; }
+        tbody tr:hover { background:#f8fafc; }
+        tbody td { padding:1rem 1.5rem; }
+        .work-name { font-weight:700; color:#0f172a; }
+        .year { color:#0d9488; font-family:monospace; }
+        .context { font-size:0.625rem; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; }
+
+        /* Gallery masonry */
+        .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:1rem; }
+        .gallery-grid img { width:100%; height:160px; object-fit:cover; border-radius:1rem; border:1px solid #e2e8f0; transition:transform .25s, box-shadow .25s; cursor:pointer; }
+        .gallery-grid img:hover { transform:scale(1.03); box-shadow:0 8px 30px rgba(0,0,0,0.08); }
+
+        /* --- Sticky sidebar --- */
+        .sidebar { position:sticky; top:6rem; align-self:start; display:flex; flex-direction:column; gap:2rem; }
+        .sidebar .portrait { border-radius:2rem; border:1px solid #e2e8f0; box-shadow:0 10px 40px rgba(0,0,0,0.06); }
+        .chart-card { padding:1.5rem; background:white; border-radius:1.5rem; border:1px solid #e2e8f0; }
+        .chart-card h3 { font-size:0.75rem; font-weight:700; text-transform:uppercase; color:#0d9488; margin-bottom:1rem; }
+        .chart-container { height:250px; }
+        .philosophy-card { padding:1.5rem; background:#fef9ef; border-radius:1.5rem; border:1px solid #fde68a; }
+        .philosophy-card h3 { color:#b45309; font-size:1.25rem; }
+        .philosophy-card p { color:#78350f; font-style:italic; }
+
+        /* Footer */
+        footer { text-align:center; padding:3rem 1.5rem; border-top:1px solid #e2e8f0; background:white; }
+        .footer-divider { display:flex; justify-content:center; gap:1rem; margin-bottom:1.5rem; }
+        .footer-divider span { width:3rem; height:4px; border-radius:9999px; }
+        .footer-divider .teal { background:#0d9488; }
+        .footer-divider .purple { background:#7c3aed; }
+        .footer-divider .orange { background:#ea580c; }
+        footer h2 { font-size:1.75rem; }
+        .tagline { color:#64748b; font-size:0.875rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1rem; }
+        .copy { color:#94a3b8; font-size:0.625rem; text-transform:uppercase; letter-spacing:0.1em; }
+
+        /* Modal */
+        .image-modal { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:2rem; opacity:0; pointer-events:none; transition:opacity .3s; }
+        .image-modal.open { opacity:1; pointer-events:all; }
+        .image-modal img { max-width:90vw; max-height:85vh; border-radius:2rem; border:1px solid rgba(255,255,255,0.1); object-fit:contain; }
+        .image-modal .close-btn { position:absolute; top:1.5rem; right:1.5rem; background:rgba(255,255,255,0.1); color:white; font-size:1.5rem; padding:0.5rem 1.2rem; border-radius:40px; transition:background .2s; }
+        .image-modal .close-btn:hover { background:rgba(255,255,255,0.25); }
+        .image-modal .modal-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.1); color:white; font-size:2rem; padding:0.5rem 1rem; border-radius:9999px; transition:background .2s; }
+        .image-modal .modal-nav:hover { background:rgba(255,255,255,0.25); }
+        .image-modal .modal-nav.prev { left:1rem; }
+        .image-modal .modal-nav.next { right:1rem; }
+
+        @media (max-width:768px) { header h1 { font-size:2rem; } .main-grid { padding:1rem; } .timeline { padding-left:1rem; } .sidebar { position:static; } }
+        @media (min-width:768px) { .mobile-toggle { display:none; } .nav-links { display:flex; } }
+    </style>
+</head>
+<body>
+<!-- MODAL -->
+<div class="image-modal" id="imageModal">
+    <button class="close-btn" id="modalCloseBtn">✕</button>
+    <button class="modal-nav prev" id="modalPrevBtn">‹</button>
+    <img id="modalImage" src="" alt="archival image" />
+    <button class="modal-nav next" id="modalNextBtn">›</button>
+</div>
+
+<!-- NAV -->
+<nav><div class="nav-inner"><a href="#" class="brand">Kilda <span>Northcott</span></a>
+    <div class="nav-links"><a href="#bio">Biography</a><a href="#eras">Eras</a><a href="#catalog">Works</a><a href="#gallery">Gallery</a></div>
+    <button class="mobile-toggle" id="mobileToggle">☰</button></div>
+    <div class="mobile-menu" id="mobileMenu"><a href="#bio">Biography</a><a href="#eras">Eras</a><a href="#catalog">Works</a><a href="#gallery">Gallery</a></div>
+</nav>
+
+<!-- HERO -->
+<header><div class="hero-badge">MNZM · Living Legacy</div>
+    <h1><span>Kilda Mori</span> <img src="photos/kildadebbie.jpg" alt="Kilda and Debbie" class="title-image" /> <span>Northcott</span></h1>
+    <p class="hero-sub">Regarded as one of the most influential figures in New Zealand dance — a testament to artistic strength, innovation, and lifelong dedication.</p>
+</header>
+
+<!-- MAIN GRID -->
+<div class="main-grid">
+    <!-- CONTENT -->
+    <div class="content-flow">
+        <!-- BIOGRAPHY -->
+        <section id="bio" class="bio-text">
+            <h2>The Living History</h2>
+            <div class="prose">
+                <p>Born in Whakatāne in 1955, <span class="hl-teal">Kilda Mori Northcott MNZM</span> has played a defining role in the development of contemporary dance in Aotearoa New Zealand. Her career spans more than five decades and mirrors the emergence of contemporary dance from a small experimental movement into one of New Zealand's most respected performing arts. As a dancer, teacher, mentor, collaborator and advocate, Northcott has helped shape generations of performers while remaining one of the country's most enduring and influential dance artists.</p>
+                <p>Northcott's journey into dance began in the Eastern Bay of Plenty, where she trained in classical ballet at the <span class="hl-orange">Ruby Conway School of Dance</span> in nearby Kawerau. Her early education was grounded in the discipline and technical precision of classical ballet before she relocated to Auckland to continue her studies at the <span class="hl-indigo">New Zealand Dance Centre</span> under two of New Zealand's most respected dance educators, <span class="hl-indigo">Russell Kerr</span> and <span class="hl-indigo">Basil Pattison</span>. The Dance Centre was one of the country's foremost professional training institutions during the 1960s and 1970s, producing many dancers who would go on to establish New Zealand's modern dance movement. Northcott's training there gave her a strong classical foundation while exposing her to emerging contemporary techniques that were beginning to transform dance internationally.</p>
+                <p>Like many ambitious New Zealand dancers of her generation, Northcott looked overseas to broaden her artistic horizons. During the mid-1970s she travelled to New York City, then the epicentre of contemporary dance innovation. There she studied the techniques of <span class="hl-purple">Merce Cunningham</span> and <span class="hl-purple">José Limón</span>, absorbing the revolutionary ideas that were redefining movement in the twentieth century. Cunningham's exploration of chance, space and independence between dance and music, combined with Limón's emphasis on breath, weight and human expression, profoundly influenced Northcott's artistic philosophy. Rather than simply reproducing overseas styles, she returned to New Zealand determined to help forge a uniquely New Zealand form of contemporary dance that reflected the country's own landscapes, people and culture.</p>
+                <p>That opportunity arrived in 1977 when Northcott became one of the founding members of <span class="hl-teal">Limbs Dance Company</span>, alongside Chris Jannides, Mary Jane O'Reilly, Debbie McCulloch, Julie Dunningham and Mark Baldwin. Contrary to the traditions of formal theatre, Limbs was established following a gathering of dancers at <span class="hl-teal">Rongomaraeroa Marae</span> in Pōrangahau, Hawke's Bay, where the company's philosophy of accessibility and artistic experimentation first took shape. Limbs rejected the idea that dance belonged only in concert halls and instead sought to take performance directly to communities throughout New Zealand.</p>
+                <p>Throughout the late 1970s and 1980s, Northcott helped pioneer a new era of professional dance in New Zealand. Limbs performed not only in traditional theatres but also in university campuses, schools, prisons, music festivals, shopping centres, nightclubs, theatre foyers and outdoor public spaces. Their productions combined classical technique with jazz, disco, pedestrian movement and popular music, deliberately breaking down the "fourth wall" that had long separated performers from audiences. This approach attracted thousands of New Zealanders who had never previously experienced contemporary dance and fundamentally changed public perceptions of the art form. Limbs became the first contemporary dance company in New Zealand to achieve widespread national popularity and is now widely regarded as one of the country's most significant performing arts institutions.</p>
+                <p>As both a founding performer and teacher within Limbs, Northcott was central to the company's success. Her technical mastery, expressive physicality and willingness to embrace experimentation made her one of its defining artists. She performed works by leading New Zealand choreographers including Mary Jane O'Reilly, Chris Jannides, Mark Baldwin and, later, Douglas Wright, helping establish a distinctly New Zealand vocabulary of movement that blended international contemporary dance practices with local identity and storytelling. The company's collaborations with musicians such as Split Enz, Don McGlashan, Jack Body and Philip Dadson further expanded contemporary dance's audience and cultural influence.</p>
+                <p>Northcott's influence extended well beyond Limbs. During the early 1980s she became an important teacher and mentor within the company, contributing to the training of young dancers entering the profession. Among those who benefited from the Limbs environment was <span class="hl-orange">Douglas Wright</span>, then a former competitive gymnast with no formal dance experience. Wright later acknowledged the significance of the training and mentorship he received from Northcott, Mary Jane O'Reilly and the Limbs community after joining the company in 1980.</p>
+                <p>A defining chapter of Northcott's career began through her long creative partnership with Douglas Wright. When Wright established the <span class="hl-orange">Douglas Wright Dance Company</span> in 1989, Northcott became one of its founding members and one of his closest artistic collaborators. Over the following decade she performed in many of Wright's landmark productions, helping bring to life some of the most acclaimed works in New Zealand dance history. Wright frequently described Northcott as his artistic muse, recognising her extraordinary ability to communicate emotional complexity through movement. In his memoir <span class="hl-teal italic">Ghost Dance</span>, he famously wrote that she "danced in the same way the Mona Lisa smiles—calm, inscrutable, seeing nothing, seeing everything."</p>
+                <p>Northcott's performances became synonymous with Wright's highly physical and deeply philosophical choreography, which explored themes of mortality, spirituality, sexuality, memory and human vulnerability. Rather than functioning simply as an interpreter of choreography, she became an active creative collaborator whose maturity, intuition and expressive intelligence helped shape the emotional language of Wright's works. Together they contributed to productions that earned international recognition and established New Zealand contemporary dance on the world stage through tours across Australia and Europe.</p>
+                <p>Alongside her performing career, Northcott developed an enduring reputation as a teacher and mentor. She has worked extensively with dancers of all ages, encouraging an approach that balances technical excellence with curiosity, creativity and authentic human expression. Her teaching philosophy reflects the belief that dance is not simply an athletic discipline but a lifelong artistic practice capable of evolving throughout every stage of life.</p>
+                <p>Rather than retiring from performance, Northcott has continued to redefine what it means to be a professional dancer. Through <span class="hl-teal">Bipeds Productions</span> and long-standing collaborations with choreographer <span class="hl-teal">Alyx Duncan</span>, she has become one of New Zealand's strongest advocates for mature performers. Their work challenges conventional assumptions that professional dance belongs exclusively to the young, demonstrating instead that older bodies possess unique histories, emotional depth and lived experience that enrich performance in ways impossible to replicate through youthful virtuosity alone. These productions have become important contributions to international conversations surrounding ageing, embodiment and representation within the performing arts.</p>
+                <p>Northcott's career has also become an important historical bridge between generations of New Zealand dancers. Having trained during the formative years of contemporary dance, helped establish Limbs Dance Company, collaborated with Douglas Wright during the emergence of his internationally acclaimed choreographic voice, and continued creating innovative work well into the twenty-first century, she embodies the living history of New Zealand dance itself. Few artists have participated so directly in every major stage of the country's contemporary dance development.</p>
+                <p>In recognition of her exceptional contribution to dance and the performing arts, Kilda Mori Northcott was appointed a <span class="hl-teal">Member of the New Zealand Order of Merit (MNZM)</span>. The honour acknowledged not only her achievements as an internationally respected performer, but also her decades of service as a teacher, mentor and advocate whose influence continues to shape New Zealand's artistic landscape.</p>
+                <p>Today, Kilda Mori Northcott remains one of the most respected figures in New Zealand dance. Her career stands as a testament to artistic courage, innovation and lifelong dedication. From a young ballet student in Kawerau to a pioneering founder of Limbs Dance Company, from the experimental studios of New York to the groundbreaking works of Douglas Wright, and from performer to mentor and champion of mature artists, Northcott's legacy is inseparable from the history of contemporary dance in Aotearoa. Through every stage of that journey, she has demonstrated that dance is not merely performance—it is a living record of experience, identity and human connection, continually evolving through those who dedicate their lives to its practice.</p>
+            </div>
+        </section>
+
+        <!-- ERAS (Timeline) -->
+        <section id="eras">
+            <h2 style="font-size:2rem; color:#0d9488; margin-bottom:1rem;">Artistic Eras</h2>
+            <div class="timeline" id="timelineContainer"></div>
+        </section>
+
+        <!-- CATALOG -->
+        <section id="catalog">
+            <h2 style="font-size:2rem; color:#0f172a; margin-bottom:0.5rem;">Performance Catalog</h2>
+            <p style="color:#64748b; margin-bottom:1rem;">A comprehensive historical record.</p>
+            <input type="text" id="perfSearch" placeholder="Search works or choreographers…" style="width:100%; padding:0.75rem 1rem; border:1px solid #e2e8f0; border-radius:0.75rem; margin-bottom:1rem; background:#f1f5f9; font-size:0.875rem;" />
+            <div class="table-wrap"><table><thead><tr><th>Work Name</th><th>Premiere</th><th>Lead Choreographer</th><th>Institutional Context</th></tr></thead><tbody id="perfTableBody"></tbody></table></div>
+        </section>
+
+        <!-- GALLERY -->
+        <section id="gallery">
+            <h2 style="font-size:2rem; color:#0f172a; margin-bottom:0.5rem;">Visual Heritage Gallery</h2>
+            <p style="color:#64748b; margin-bottom:1rem;">Click any image to enlarge.</p>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </section>
+    </div>
+
+    <!-- STICKY SIDEBAR -->
+    <aside class="sidebar">
+        <img src="photos/KildaYoung.jpg" alt="Kilda portrait" class="portrait" />
+        <div class="chart-card"><h3>Creative Velocity</h3><div class="chart-container"><canvas id="careerChart"></canvas></div></div>
+        <div class="philosophy-card"><h3>Core Philosophy</h3><p>"The body is a vessel of memory. Every movement I make today carries the echo of the marae floor in 1977, the rehearsal studios of Sydney in the 80s, and the cinematic landscapes of the present."</p></div>
+    </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-divider"><span class="teal"></span><span class="purple"></span><span class="orange"></span></div>
+    <h2>Kilda Mori Northcott, MNZM</h2>
+    <p class="tagline">Dancer · Choreographer · Teacher · Mentor</p>
+    <p class="copy">A Digital Preservation Project © 2024</p>
+</footer>
+
+<script>
+    // ---- DATA ----
+    const erasData = [
+        { title:"Limbs Dance Company", date:"1977 – 1983", desc:"As a founding member of New Zealand's first professional contemporary company, Kilda toured nationally and internationally. This period was characterized by a high-energy, eclectic style that combined modern dance with theatrical flair.", collab:"Chris Jannides, M.J. O'Reilly", loc:"Auckland / Global Tours" },
+        { title:"The Sydney Transition", date:"1983 – 1989", desc:"Moving across the Tasman, Northcott became a fixture in the Sydney contemporary scene. This era involved deep experimentation with independent choreographers and the integration of yoga into her somatic practice.", collab:"Darc Swan, Jill Carter-Hansen", loc:"Sydney, Australia" },
+        { title:"The Douglas Wright Muse", date:"1989 – 2003", desc:"Often cited as the 'spine' of Douglas Wright's most iconic works. Her technical precision and emotional depth allowed Wright to create pieces that remain the high-water mark of NZ contemporary dance history.", collab:"Douglas Wright, Michael Parmenter", loc:"Wellington / Auckland" },
+        { title:"Bipeds & Pedagogy", date:"2003 – 2010", desc:"Co-founding Bipeds Productions marked a shift toward community-integrated dance and education. During this time, she received the MNZM for her services to the national dance community.", collab:"Lyne Pringle, Dunedin Arts", loc:"Dunedin / Port Chalmers" },
+        { title:"Screen Dance Maturity", date:"2010 – Present", desc:"A transition into highly visual, cinematic explorations of aging. Collaborations with director Alyx Duncan have seen Kilda's movement translated into hauntingly beautiful screen narratives.", collab:"Alyx Duncan, Screen NZ", loc:"Cinematic / Digital Media" }
+    ];
+
+    const performances = [
+        { work:"Reptile", year:1977, choreo:"Chris Jannides", context:"Limbs Founding Tour" },
+        { work:"Apart", year:1978, choreo:"Chris Jannides", context:"National Tour" },
+        { work:"New Wave Goodbye", year:1978, choreo:"Mary-Jane O'Reilly", context:"Populist Era" },
+        { work:"Sellotape 1", year:1978, choreo:"Chris Jannides", context:"Limbs Experimental" },
+        { work:"Morphus", year:1978, choreo:"Chris Jannides", context:"Maidment Theatre" },
+        { work:"Walking on Thin Ice", year:1986, choreo:"Douglas Wright", context:"Sydney / Auckland" },
+        { work:"How on Earth", year:1989, choreo:"Douglas Wright", context:"Aotea Centre Premiere" },
+        { work:"A New Dance / Passion Play", year:1990, choreo:"Wright & Northcott", context:"Collaborative Duet" },
+        { work:"Forever", year:1993, choreo:"Douglas Wright", context:"International Festival" },
+        { work:"Buried Venus", year:1996, choreo:"Douglas Wright", context:"Role: Lead Ensemble" },
+        { work:"Inland", year:2002, choreo:"Douglas Wright", context:"NZ Festival of the Arts" },
+        { work:"Dancing on Mars", year:2005, choreo:"Pringle & Northcott", context:"Bipeds Production" },
+        { work:"Lily", year:2009, choreo:"Lyne Pringle", context:"Dunedin Town Hall" },
+        { work:"The Sea Inside Her", year:2024, choreo:"Alyx Duncan (Dir)", context:"Short Film Narrative" }
+    ];
+
+    const imageFiles = [
+        "1979NambassaFestival.jpg","AtThePark.jpg","DanceMagKildaLimbs.jpg","HandsUp.jpg","Hanger.jpg",
+        "Kilda.jpg","KildaYoung.jpg","Limbs-poster-Rangitoto-og.jpg","Limbs-poster-Rangitoto_sm.jpg",
+        "Limbs.web.jpg","Limbs1980tour_1sm.jpg","LimbsDanceHands.jpg","LimbsDance_1_sm.jpg",
+        "LimbsPoster.jpg","LimbsPoster1.jpg","Scan2_sm.jpg","Scan3_sm.jpg","Scan5_sm.jpg",
+        "TheSeaInsideHer.jpg","airport.jpg","c-limbs-dance-prog-284.jpg","chris-kilda.jpg",
+        "early-limbs-group-shot-in-2nd.jpg","early-limbs.jpg","giselle-group-photo.jpg",
+        "great-slave-picture-with-peta.jpg","kilda_demeter.jpg","kildadebbie.jpg","kildadebbie1.jpg",
+        "lift.jpg","limbs-cheesy-publicity-shot.jpg","limbs-everyone.jpg","limbs-hands-on-hips-group-shot.jpg",
+        "limbs-women-hair.jpg","limbs1.jpg","limbswhangamata1.jpg","lookup.jpg","lyne_pringle.jpg",
+        "nlnzKilda.jpg","nlnzKilda1.jpg","parliament-shot.jpg","porongahau-workshop-copy.jpg",
+        "rose.jpg","sea.jpg","smiling-limbs.jpg","stool.jpg","tea_party.jpg","uniLimbs.jpg",
+        "BlackBody.jpeg","ComapnyDancePic.jpeg","DanceKildaandGirl.jpeg","EST.jpeg","Horse.jpeg",
+        "Kida4PeopleB&W.jpeg","KildaandIha.jpeg","KildaArms.jpeg","KildaBunny.jpeg","KildaDouglas.jpeg","REKA.jpeg"
+    ];
+
+    // ---- RENDER TIMELINE ----
+    const container = document.getElementById('timelineContainer');
+    erasData.forEach((e, i) => {
+        const div = document.createElement('div');
+        div.className = 'timeline-item' + (i===0 ? ' active' : '');
+        div.innerHTML = `<div class="date">${e.date}</div><div class="title" data-index="${i}">${e.title}</div><div class="desc"><p>${e.desc}</p><p><strong>Collaborators:</strong> ${e.collab}</p><p><strong>Location:</strong> ${e.loc}</p></div>`;
+        container.appendChild(div);
+        div.querySelector('.title').addEventListener('click', function() {
+            document.querySelectorAll('.timeline-item').forEach(el => el.classList.remove('active'));
+            this.closest('.timeline-item').classList.add('active');
+        });
+    });
+
+    // ---- PERFORMANCE TABLE ----
+    function populateTable(filter='') {
+        const tbody = document.getElementById('perfTableBody');
+        tbody.innerHTML = '';
+        const filtered = performances.filter(p => p.work.toLowerCase().includes(filter.toLowerCase()) || p.choreo.toLowerCase().includes(filter.toLowerCase()));
+        filtered.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td class="work-name">${p.work}</td><td class="year">${p.year}</td><td>${p.choreo}</td><td class="context">${p.context}</td>`;
+            tbody.appendChild(tr);
+        });
+    }
+    document.getElementById('perfSearch').addEventListener('input', e => populateTable(e.target.value));
+    populateTable();
+
+    // ---- GALLERY ----
+    const grid = document.getElementById('galleryGrid');
+    let currentIdx = 0;
+    function openModal(idx) { currentIdx=idx; document.getElementById('modalImage').src='photos/'+imageFiles[idx]; document.getElementById('imageModal').classList.add('open'); }
+    function closeModal() { document.getElementById('imageModal').classList.remove('open'); }
+    function prevImg() { currentIdx=(currentIdx-1+imageFiles.length)%imageFiles.length; document.getElementById('modalImage').src='photos/'+imageFiles[currentIdx]; }
+    function nextImg() { currentIdx=(currentIdx+1)%imageFiles.length; document.getElementById('modalImage').src='photos/'+imageFiles[currentIdx]; }
+    document.getElementById('modalCloseBtn').addEventListener('click',closeModal);
+    document.getElementById('modalPrevBtn').addEventListener('click',prevImg);
+    document.getElementById('modalNextBtn').addEventListener('click',nextImg);
+    document.getElementById('imageModal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+    imageFiles.forEach((file,i)=>{
+        const img = document.createElement('img');
+        img.src = 'photos/'+file;
+        img.alt = file.replace(/\.[^/.]+$/,'').replace(/-/g,' ');
+        img.loading = 'lazy';
+        img.addEventListener('click', ()=>openModal(i));
+        grid.appendChild(img);
+    });
+
+    // ---- CHART ----
+    new Chart(document.getElementById('careerChart'), {
+        type:'bar',
+        data:{ labels:['70s','80s','90s','00s','10s+'], datasets:[{ label:'Key Productions', data:[6,4,3,5,2], backgroundColor:'#0d9488', borderRadius:8 }] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ color:'#94a3b8', font:{ size:10 } }, grid:{ color:'rgba(0,0,0,0.05)' } }, x:{ ticks:{ color:'#94a3b8', font:{ size:10 } }, grid:{ display:false } } } }
+    });
+
+    // ---- MOBILE TOGGLE ----
+    document.getElementById('mobileToggle').addEventListener('click', ()=>document.getElementById('mobileMenu').classList.toggle('open'));
+</script>
+</body>
+</html>
