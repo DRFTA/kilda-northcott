@@ -37,14 +37,51 @@
         .mobile-menu a { padding:0.75rem 1rem; color:#64748b; border-radius:0.5rem; transition:background .2s; }
         .mobile-menu a:hover { background:#f1f5f9; color:#0f172a; }
 
-        /* --- Hero --- */
-        header { padding:8rem 1.5rem 3rem; background:linear-gradient(to bottom,#f1f5f9,#f8fafc); text-align:center; }
-        .hero-badge { display:inline-block; padding:0.25rem 1rem; margin-bottom:1.5rem; font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:rgba(13,148,136,0.12); color:#0d9488; border-radius:9999px; border:1px solid rgba(13,148,136,0.2); }
-        header h1 { font-size:2.5rem; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:0.5rem; margin-bottom:1.5rem; }
-        header h1 .title-image { max-height:4rem; border-radius:1rem; border:2px solid #e2e8f0; box-shadow:0 4px 20px rgba(0,0,0,0.06); }
-        .hero-sub { font-size:1.125rem; color:#475569; max-width:720px; margin:0 auto; font-style:italic; }
+        /* --- Hero (updated) --- */
+        header { 
+            padding: 8rem 1.5rem 3rem; 
+            background: linear-gradient(to bottom, #f1f5f9, #f8fafc); 
+            text-align: center; 
+        }
+        .hero-badge { 
+            display: inline-block; 
+            padding: 0.25rem 1rem; 
+            margin-bottom: 2rem; 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            letter-spacing: 0.1em; 
+            text-transform: uppercase; 
+            background: rgba(13,148,136,0.12); 
+            color: #0d9488; 
+            border-radius: 9999px; 
+            border: 1px solid rgba(13,148,136,0.2); 
+        }
+        .hero-image {
+            max-height: 60vh;        /* large, responsive */
+            width: auto;
+            max-width: 90%;
+            margin: 0 auto 2rem auto;
+            border-radius: 1.5rem;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            object-fit: contain;
+            background: #f8fafc;
+        }
+        header h1 { 
+            font-size: 3rem; 
+            font-weight: 700; 
+            color: #0f172a; 
+            margin-bottom: 1.5rem; 
+        }
+        .hero-sub { 
+            font-size: 1.125rem; 
+            color: #475569; 
+            max-width: 720px; 
+            margin: 0 auto; 
+            font-style: italic; 
+        }
 
-        /* --- Main container (two‑column with sticky sidebar) --- */
+        /* --- Main container --- */
         .main-grid { max-width:1280px; margin:0 auto; padding:2rem 1.5rem 4rem; display:grid; grid-template-columns:1fr; gap:3rem; }
         @media (min-width:1024px) { .main-grid { grid-template-columns:2.5fr 1.5fr; } }
 
@@ -120,7 +157,7 @@
         .image-modal .modal-nav.prev { left:1rem; }
         .image-modal .modal-nav.next { right:1rem; }
 
-        @media (max-width:768px) { header h1 { font-size:2rem; } .main-grid { padding:1rem; } .timeline { padding-left:1rem; } .sidebar { position:static; } }
+        @media (max-width:768px) { header h1 { font-size:2rem; } .main-grid { padding:1rem; } .timeline { padding-left:1rem; } .sidebar { position:static; } .hero-image { max-height:40vh; } }
         @media (min-width:768px) { .mobile-toggle { display:none; } .nav-links { display:flex; } }
     </style>
 </head>
@@ -140,10 +177,15 @@
     <div class="mobile-menu" id="mobileMenu"><a href="#bio">Biography</a><a href="#eras">Eras</a><a href="#catalog">Works</a><a href="#gallery">Gallery</a></div>
 </nav>
 
-<!-- HERO -->
-<header><div class="hero-badge">MNZM · Living Legacy</div>
-    <h1><span>Kilda Mori</span> <img src="photos/kildadebbie.jpg" alt="Kilda and Debbie" class="title-image" /> <span>Northcott</span></h1>
-    <p class="hero-sub">Regarded as one of the most influential figures in New Zealand dance — a testament to artistic strength, innovation, and lifelong dedication.</p>
+<!-- HERO (updated) -->
+<header>
+    <h1><span>Kilda Mori Northcott</span></h1>
+    <span class="hero-badge">MNZM · Living Legacy</span>
+    <p class="hero-sub">This website has been created to honour and celebrate Kilda Northcott and her remarkable life’s work in dance.</p>
+    <div style="height: 1em;"></div>
+    <img src="photos/kildadebbie.jpg" alt="Kilda and Debbie" class="title-image" />
+    <div style="height: 1em;"></div>
+    <p class="hero-sub">Regarded as one of New Zealand’s most influential and extraordinary dancers, Kilda Northcott was a true master of her art in dance and one of Aotearoa’s finest talents. Honoured with the New Zealand Order of Merit for her artistic excellence, innovation, and lifelong dedication to dance, she moved with a rare presence that captivated audiences and inspired generations. As Douglas Wright famously wrote in Ghost Dance, she “danced in the same way the Mona Lisa smiles—calm, inscrutable, seeing nothing, seeing everything.”</p>
 </header>
 
 <!-- MAIN GRID -->
