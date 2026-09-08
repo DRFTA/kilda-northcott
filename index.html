@@ -445,20 +445,95 @@
     }
 
     const performances = [
-        { work:"Reptile", year:1977, choreo:"Chris Jannides", context:"Limbs Founding Tour" },
-        { work:"Apart", year:1978, choreo:"Chris Jannides", context:"National Tour" },
-        { work:"New Wave Goodbye", year:1978, choreo:"Mary-Jane O'Reilly", context:"Populist Era" },
-        { work:"Sellotape 1", year:1978, choreo:"Chris Jannides", context:"Limbs Experimental" },
-        { work:"Morphus", year:1978, choreo:"Chris Jannides", context:"Maidment Theatre" },
-        { work:"Walking on Thin Ice", year:1986, choreo:"Douglas Wright", context:"Sydney / Auckland" },
-        { work:"How on Earth", year:1989, choreo:"Douglas Wright", context:"Aotea Centre Premiere" },
-        { work:"A New Dance / Passion Play", year:1990, choreo:"Wright & Northcott", context:"Collaborative Duet" },
-        { work:"Forever", year:1993, choreo:"Douglas Wright", context:"International Festival" },
-        { work:"Buried Venus", year:1996, choreo:"Douglas Wright", context:"Role: Lead Ensemble" },
-        { work:"Inland", year:2002, choreo:"Douglas Wright", context:"NZ Festival of the Arts" },
-        { work:"Dancing on Mars", year:2005, choreo:"Pringle & Northcott", context:"Bipeds Production" },
-        { work:"Lily", year:2009, choreo:"Lyne Pringle", context:"Dunedin Town Hall" },
-        { work:"The Sea Inside Her", year:2024, choreo:"Alyx Duncan (Dir)", context:"Short Film Narrative" }
+        // 1977 Works
+        { work: "Flight One", year: 1977, choreo: "Chris Jannides and Friends", context: "Limbs Repertory 1977" },
+        { work: "Hey Negrita", year: 1977, choreo: "Chris Jannides", context: "Limbs Repertory 1977" },
+        { work: "Reptile", year: 1977, choreo: "Mary Jane O'Reilly", context: "Limbs Founding Tour" },
+        { work: "Satie", year: 1977, choreo: "Chris Jannides and Friends", context: "Limbs Repertory 1977" },
+        { work: "Viva", year: 1977, choreo: "Chris Jannides", context: "Limbs Repertory 1977" },
+        { work: "Watch It Buddy", year: 1977, choreo: "Chris Jannides", context: "Limbs Repertory 1977" },
+
+        // 1978 Works
+        { work: "Apart", year: 1978, choreo: "Chris Jannides", context: "National Tour" },
+        { work: "Rehearsals and Interviews Christchurch", year: 1978, choreo: "Ensemble", context: "Christchurch Documentation" },
+        { work: "Backyard Frolics", year: 1978, choreo: "Chris Jannides", context: "Limbs Repertory 1978" },
+        { work: "Bamboo", year: 1978, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1978" },
+        { work: "Big Bump", year: 1978, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1978" },
+        { work: "Concrete Boogie", year: 1978, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1978" },
+        { work: "Conversation Piece", year: 1978, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1978" },
+        { work: "Eno", year: 1978, choreo: "Chris Jannides", context: "Limbs Repertory 1978" },
+        { work: "Funtime", year: 1978, choreo: "Chris Jannides", context: "Limbs Repertory 1978" },
+        { work: "Heart", year: 1978, choreo: "Chris Jannides", context: "Limbs Repertory 1978" },
+        { work: "Liquid Lighting", year: 1978, choreo: "Chris Jannides", context: "Limbs Repertory 1978" },
+        { work: "Moth I & II", year: 1978, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1978" },
+        { work: "New Wave Goodbye", year: 1978, choreo: "Chris Jannides", context: "Populist Era" },
+        { work: "Russell's Dance", year: 1978, choreo: "Russell Kerr", context: "Limbs Repertory 1978" },
+        { work: "Schtung", year: 1978, choreo: "Chris Jannides", context: "Limbs Repertory 1978" },
+        { work: "Sellotape 1 and 2", year: 1978, choreo: "Mark Baldwin", context: "Limbs Experimental" },
+        { work: "The Moon and other poems", year: 1978, choreo: "Chris Jannides", context: "Limbs Repertory 1978" },
+        { work: "Vertigo", year: 1978, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1978" },
+        { work: "Walking One And Only", year: 1978, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1978" },
+        { work: "Warm Rock (Morphus)", year: 1978, choreo: "Chris Jannides", context: "Maidment Theatre" },
+
+        // 1979 Works
+        { work: "After The Rain", year: 1979, choreo: "Adrian Batchelor", context: "Limbs Repertory 1979" },
+        { work: "Broken Lines", year: 1979, choreo: "Kilda Northcott", context: "Limbs Repertory 1979" },
+        { work: "Busy", year: 1979, choreo: "Chris Jannides", context: "Limbs Repertory 1979" },
+        { work: "Cajun Moon", year: 1979, choreo: "Chris Jannides", context: "Limbs Repertory 1979" },
+        { work: "Complicated Legs Dance", year: 1979, choreo: "Chris Jannides", context: "Limbs Repertory 1979" },
+        { work: "Games", year: 1979, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1979" },
+        { work: "Little Piano", year: 1979, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1979" },
+        { work: "Lucky Number One", year: 1979, choreo: "Chris Jannides", context: "Limbs Repertory 1979" },
+        { work: "Perhaps Can", year: 1979, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1979" },
+        { work: "Ponsonby Hat Dance", year: 1979, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1979" },
+        { work: "Red Riding Hood", year: 1979, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1979" },
+        { work: "Satisfaction", year: 1979, choreo: "Chris Jannides", context: "Limbs Repertory 1979" },
+        { work: "Silence", year: 1979, choreo: "Chris Jannides", context: "Limbs Repertory 1979" },
+        { work: "T.V. Dance", year: 1979, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1979" },
+
+        // 1980 Works
+        { work: "(3+5)2 (Pyramid)", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+        { work: "Arcade", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+        { work: "Bamiyon", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+        { work: "Brunswick Flats", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+        { work: "Curtains", year: 1980, choreo: "Mark Baldwin", context: "Limbs Repertory 1980" },
+        { work: "Entering A Shell", year: 1980, choreo: "Mark Baldwin", context: "Limbs Repertory 1980" },
+        { work: "Flat out Jazz", year: 1980, choreo: "Peter George", context: "Limbs Repertory 1980" },
+        { work: "Girl You Want", year: 1980, choreo: "Mark Baldwin", context: "Limbs Repertory 1980" },
+        { work: "Hendrix", year: 1980, choreo: "Chris Jannides", context: "Limbs Repertory 1980" },
+        { work: "Hot Fun", year: 1980, choreo: "Peter George", context: "Limbs Repertory 1980" },
+        { work: "I Got You", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+        { work: "Madness", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+        { work: "Melting Moments (Lento)", year: 1980, choreo: "Mark Baldwin / Chris Jannides", context: "Limbs Repertory 1980" },
+        { work: "Negaton", year: 1980, choreo: "Chris Jannides", context: "Limbs Repertory 1980" },
+        { work: "Saga (Cargo)", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+        { work: "Shark Attack", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+        { work: "The Unicorn, The Gorgon And The Manticore", year: 1980, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1980" },
+
+        // 1981 Works
+        { work: "Backstreet Primary", year: 1981, choreo: "Douglas Wright", context: "Limbs Repertory 1981" },
+        { work: "Commute", year: 1981, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1981" },
+        { work: "Pink Slip", year: 1981, choreo: "Adrian Batchelor", context: "Limbs Repertory 1981" },
+        { work: "Soft Corps (Centre)", year: 1981, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1981" },
+        { work: "Swingers", year: 1981, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1981" },
+        { work: "Talking Heads", year: 1981, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1981" },
+
+        // 1982 Works
+        { work: "Aurora Borealis", year: 1982, choreo: "Douglas Wright", context: "Limbs Repertory 1982" },
+        { work: "Late Afternoon Of A Faun", year: 1982, choreo: "Douglas Wright", context: "Limbs Repertory 1982" },
+        { work: "Murmur (Knee Dance)", year: 1982, choreo: "Douglas Wright", context: "Limbs Repertory 1982" },
+        { work: "Shadow Of The Warrior", year: 1982, choreo: "Mary Jane O'Reilly", context: "Limbs Repertory 1982" },
+        { work: "Walking On Thin Ice", year: 1982, choreo: "Douglas Wright", context: "Sydney / Auckland" },
+
+        // Later Landmark Productions
+        { work: "How on Earth", year: 1989, choreo: "Douglas Wright", context: "Aotea Centre Premiere" },
+        { work: "A New Dance / Passion Play", year: 1990, choreo: "Wright & Northcott", context: "Collaborative Duet" },
+        { work: "Forever", year: 1993, choreo: "Douglas Wright", context: "International Festival" },
+        { work: "Buried Venus", year: 1996, choreo: "Douglas Wright", context: "Role: Lead Ensemble" },
+        { work: "Inland", year: 2002, choreo: "Douglas Wright", context: "NZ Festival of the Arts" },
+        { work: "Dancing on Mars", year: 2005, choreo: "Pringle & Northcott", context: "Bipeds Production" },
+        { work: "Lily", year: 2009, choreo: "Lyne Pringle", context: "Dunedin Town Hall" },
+        { work: "The Sea Inside Her", year: 2024, choreo: "Alyx Duncan (Dir)", context: "Short Film Narrative" }
     ];
 
     const imageFiles = [
@@ -531,7 +606,7 @@
     // ---- CHART ----
     new Chart(document.getElementById('careerChart'), {
         type:'bar',
-        data:{ labels:['70s','80s','90s','00s','10s+'], datasets:[{ label:'Key Productions', data:[6,4,3,5,2], backgroundColor:'#99f6e4', hoverBackgroundColor:'#fed7aa', borderRadius:8 }] },
+        data:{ labels:['70s','80s','90s','00s','10s+'], datasets:[{ label:'Key Productions', data:[45,28,3,5,2], backgroundColor:'#99f6e4', hoverBackgroundColor:'#fed7aa', borderRadius:8 }] },
         options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ color:'#64748b', font:{ size:10 } }, grid:{ color:'rgba(255,255,255,0.04)' } }, x:{ ticks:{ color:'#64748b', font:{ size:10 } }, grid:{ display:false } } } }
     });
 
@@ -557,7 +632,7 @@
         if (touchEndX < touchStartX - swipeThreshold) {
             nextImg();
         }
-        if (touchEndX > touchStartX + swipeThreshold) {
+        if (touchEndX > touchStartX - swipeThreshold) {
             prevImg();
         }
     }
